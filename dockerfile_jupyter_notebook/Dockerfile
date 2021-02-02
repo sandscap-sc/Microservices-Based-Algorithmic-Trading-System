@@ -1,17 +1,21 @@
-FROM jupyter/scipy-notebook
+FROM jupyter/scipy-notebook:latest
 
 USER root
 
 COPY requirements.txt /tmp/
+
+RUN source activate
+
 RUN pip install --requirement /tmp/requirements.txt && \
     fix-permissions $CONDA_DIR && \
-    fix-permissions /home/$NB_USER && \
-    apt update && \
-    apt-get install curl -y
+    fix-permissions /home/$NB_USER
+
+RUN source deactivate
 
 ENV PYTHONPATH "${PYTHONPATH}:/home/jovyan/work/q_pack"
-    
-CMD ["jupyter", "notebook", "--no-browser","--NotebookApp.token=''","--NotebookApp.password=''", "--allow-root"]
+
+COPY start.sh .
+CMD ./start.sh
 
 
 # Another way to give root access without password in the compose
