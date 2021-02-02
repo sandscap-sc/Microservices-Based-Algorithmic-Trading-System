@@ -47,6 +47,7 @@ def run(args=None):
         cerebro.addanalyzer(bt_logger_analyzer.logger_analyzer,_name='ml_logger')
 
     if args.mode=='live':
+        print('Running live')
         oandastore = btoandav20.stores.OandaV20Store(token=args.broker_token, account=args.broker_account, practice=True)
         for ticker in ticker_list:
             data = oandastore.getdata(dataname = ticker,timeframe = bt.TimeFrame.Minutes,compression=1,tz=pytz.timezone('US/Eastern'))
@@ -55,7 +56,7 @@ def run(args=None):
         cerebro.addstrategy(globals()[args.strat_name].St, backtest=False)
 
     elif args.mode=='backtest':
-
+        print('Running backtest')
         for ticker in ticker_list:
             data = bt_datafeed_postgres.PostgreSQL_Daily(dbHost=db_cred.dbHost,dbUser=db_cred.dbUser,dbPWD=db_cred.dbPWD,dbName=db_cred.dbName,ticker=ticker, name=ticker,**dkwargs)
             cerebro.adddata(data)

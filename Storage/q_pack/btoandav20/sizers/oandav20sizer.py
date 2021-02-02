@@ -28,9 +28,9 @@ class OandaV20Sizer(bt.Sizer):
                 avail = float(price['unitsAvailable']['default']['long'])
             else:
                 avail = float(price['unitsAvailable']['default']['short'])
-        if self.p.percents is not 0:
+        if self.p.percents != 0:
             size = avail * (self.p.percents / 100)
-        elif self.p.amount is not 0:
+        elif self.p.amount != 0:
             size = (avail / cash) * self.p.amount
         else:
             size = 0
@@ -69,9 +69,9 @@ class OandaV20Risk(OandaV20Sizer):
         sym_src = self.o.get_currency()
 
         cash_to_use = 0
-        if self.p.risk_percents is not 0:
+        if self.p.risk_percents != 0:
             cash_to_use = cash * (self.p.risk_percents / 100)
-        elif self.p.risk_amount is not 0:
+        elif self.p.risk_amount != 0:
             cash_to_use = self.p.risk_amount
 
         if sym_src != sym_to:
