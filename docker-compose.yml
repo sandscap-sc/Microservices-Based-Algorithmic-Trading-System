@@ -52,7 +52,7 @@ services:
         image: redis
         restart: always
         volumes:
-            - redis:/data
+            - ./Storage/Databases/redis:/data
 
     superset:
         container_name: "superset"
@@ -75,23 +75,25 @@ services:
         restart: always
         container_name: "my_postgres"
         ports:
-            - 5431:5431                
+            - 5432:5432                
         environment:
+            - POSTGRES_USER=postgres
             - SHARED_PASSWORD=password
-            - POSTGRES_PASSWORD=posgres349
+            - POSTGRES_PASSWORD=postgres
         volumes:
             - ./Storage/postgress_db/scripts/:/docker-entrypoint-initdb.d/ 
-            - pg_data:/var/lib/postgresql/data
+            - ./Storage/Databases/pg_data:/var/lib/postgresql/data
 
     pgadmin:
         container_name: "pgadmin"
         image: dpage/pgadmin4
         restart: always
         environment:
-            PGADMIN_DEFAULT_EMAIL: "admin"
+            PGADMIN_DEFAULT_EMAIL: "admin@domain.com"
             PGADMIN_DEFAULT_PASSWORD: "password"
         volumes:
-            - ./Storage/pgadmin/:/var/lib/pgadmin4 
+            - ./Storage/pgadmin/:/var/lib/pgadmin4
+            - ./Storage/pgadmin_servers.json:/pgadmin4/servers.json
         ports:
             - 1234:80
         depends_on:
@@ -105,7 +107,7 @@ services:
             - POSTGRES_PASSWORD=airflow
             - POSTGRES_DB=airflow   
         volumes:
-            - pg_data_airflow:/var/lib/postgresql/data
+            - ./Storage/Databases/pg_data_airflow:/var/lib/postgresql/data
             
     airflow:
         image: airflow
@@ -126,13 +128,13 @@ services:
             - 8080:8080
         command: webserver
 
-volumes:
-    pg_data:
-        external: false
-        name: pg_data
-    pg_data_airflow:
-        external: false
-        name: pg_data_airflow
-    redis:
-        external: false
-        name: redis
+#volumes:
+#    pg_data:
+#        external: false
+#        name: pg_data
+#    pg_data_airflow:
+#        external: false
+#        name: pg_data_airflow
+#    redis:
+#        external: false
+#        name: redis

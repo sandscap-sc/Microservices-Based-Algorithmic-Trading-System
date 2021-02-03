@@ -1,0 +1,22 @@
+{
+    "Servers": {
+        "sec_master": {
+            "Name": "sec_master",
+            "Group": "Servers",
+            "Port": 5432,
+            "Username": "postgres",
+            "SSLMode": "prefer",
+            "Host": "postgres_secmaster",
+            "MaintenanceDB": "postgres"
+        },
+        "airflow_postgres" : {
+            "Name": "airflow_postgres",
+            "Group": "Servers",
+            "Port": 5432,
+            "Username": "airflow",
+            "SSLMode": "prefer",
+            "Host": "postgres",
+            "MaintenanceDB": "postgres"
+        }
+    }
+}
