@@ -85,14 +85,13 @@ services:
 
     pgadmin:
         container_name: "pgadmin"
-        build:
-            context: ./dockerfile_pgadmin
+        image: dpage/pgadmin4
         restart: always
         environment:
-            PGADMIN_DEFAULT_EMAIL: "guest"
-            PGADMIN_DEFAULT_PASSWORD: "guest"
+            PGADMIN_DEFAULT_EMAIL: "admin"
+            PGADMIN_DEFAULT_PASSWORD: "password"
         volumes:
-            - ./Storage/pgadmin/:/var/lib/pgadmin 
+            - ./Storage/pgadmin/:/var/lib/pgadmin4 
         ports:
             - 1234:80
         depends_on:
